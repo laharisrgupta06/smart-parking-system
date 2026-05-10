@@ -27,21 +27,23 @@ export default function DashboardPage() {
       .select('*')
       .eq('ticket_status', 'active')
 
-    const total = slots.length
+      const total = slots?.length || 0
 
-    const available = slots.filter(
-      (slot) => slot.slot_status === 'available'
-    ).length
-
-    const occupied = slots.filter(
-      (slot) => slot.slot_status === 'occupied'
-    ).length
+      const available =
+        slots?.filter(
+          (slot) => slot.slot_status === 'available'
+        ).length || 0
+      
+      const occupied =
+        slots?.filter(
+          (slot) => slot.slot_status === 'occupied'
+        ).length || 0
 
     setStats({
       total,
       available,
       occupied,
-      tickets: activeTickets.length,
+      tickets: activeTickets?.length || 0,
     })
   }
   return (

@@ -4,6 +4,7 @@ import { supabase } from '../supabase'
 export default function VehicleExitPage() {
   const [ticketId, setTicketId] = useState('')
   const [parkingHours, setParkingHours] = useState('')
+  const [receipt, setReceipt] = useState(null)
 
   const handleExit = async (e) => {
     e.preventDefault()
@@ -60,9 +61,15 @@ if (
       })
       .eq('slot_id', ticket.slot_id)
 
-    alert(
-      `Vehicle Exit Complete 🚗\nFee: ₹${fee}`
-    )
+  
+      setReceipt({
+        ticketId,
+        vehicleType: vehicle.vehicle_type,
+        hours,
+        fee,
+        exitTime: exitTime.toLocaleString(),
+      })
+    
 
     setTicketId('')
     setParkingHours('')
@@ -104,6 +111,55 @@ if (
           Process Exit
         </button>
       </form>
+      {receipt && (
+  <div className="mt-6 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-6 text-white">
+    
+    <h2 className="text-2xl font-bold mb-4">
+      Parking Receipt 🎟
+    </h2>
+
+    <div className="space-y-2 text-sm">
+      <p>
+        <span className="font-semibold">
+          Ticket ID:
+        </span>{' '}
+        {receipt.ticketId}
+      </p>
+
+      <p>
+        <span className="font-semibold">
+          Vehicle Type:
+        </span>{' '}
+        {receipt.vehicleType}
+      </p>
+
+      <p>
+        <span className="font-semibold">
+          Parking Hours:
+        </span>{' '}
+        {receipt.hours}
+      </p>
+
+      <p>
+        <span className="font-semibold">
+          Parking Fee:
+        </span>{' '}
+        ₹{receipt.fee}
+      </p>
+
+      <p>
+        <span className="font-semibold">
+          Exit Time:
+        </span>{' '}
+        {receipt.exitTime}
+      </p>
+
+      <p className="text-emerald-300 font-semibold pt-2">
+        Payment Successful ✅
+      </p>
+    </div>
+  </div>
+)}
     </div>
   )
 }
